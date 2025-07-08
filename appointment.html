@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment - Malik Dental Clinic</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0c5a77;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: #0c5a77;
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #09415a;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #0c5a77;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book Appointment</h1>
+    <p>Malik Dental Clinic</p>
+  </header>
+
+  <div class="container">
+    <form id="appointmentForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required />
+
+      <label for="datetime">Preferred Date & Time</label>
+      <input type="datetime-local" id="datetime" name="datetime" required />
+
+      <label for="message">Reason for Visit</label>
+      <textarea id="message" name="message" placeholder="Write here..." rows="4"></textarea>
+
+      <button type="submit">Submit Appointment</button>
+    </form>
+    <div id="responseMessage"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 Malik Dental Clinic | All rights reserved
+  </footer>
+
+  <script src="script.js">
+    document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this).entries());
+      const res = await fetch('http://localhost:3000/book-appointment', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      document.getElementById('responseMessage').innerText = result.message || result.error;
+    });
+    
+  </script>
+</body>
+</html>
